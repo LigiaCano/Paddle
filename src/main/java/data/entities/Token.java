@@ -1,5 +1,6 @@
 package data.entities;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,6 +23,8 @@ public class Token {
     @ManyToOne
     @JoinColumn
     private User user;
+    
+    private Calendar expirationDate;
 
     public Token() {
     }
@@ -37,7 +40,15 @@ public class Token {
         return id;
     }
 
-    public String getValue() {
+    public Calendar getExpirationDate() {
+		return expirationDate;
+	}
+
+	public void setExpirationDate(Calendar expirationDate) {
+		this.expirationDate = expirationDate;
+	}
+
+	public String getValue() {
         return value;
     }
 
@@ -66,6 +77,6 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token [id=" + id + ", value=" + value + ", userId=" + user.getId() + "]";
+        return "Token [id=" + id + ", value=" + value + ", userId=" + user.getId() + "expirationDate" + expirationDate + "]";
     }
 }
