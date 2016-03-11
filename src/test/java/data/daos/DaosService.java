@@ -83,6 +83,9 @@ public class DaosService {
         Token token;
         for (User user : users) {
             token = new Token(user);
+            Calendar date = Calendar.getInstance();
+            date.add(Calendar.HOUR_OF_DAY, 1);
+            token.setExpirationDate(date);
             tokenDao.save(token);
             tokenList.add(token);
         }
