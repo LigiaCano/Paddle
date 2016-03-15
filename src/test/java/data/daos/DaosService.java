@@ -114,7 +114,7 @@ public class DaosService {
         }
     }
     
-    public void createTraining(User trainer, Court court,User[] users){
+    public void createTraining(User trainer, Court court,User[] players){
     	Calendar starDate = Calendar.getInstance();
     	starDate.add(Calendar.DAY_OF_YEAR, 2);
     	starDate.set(Calendar.HOUR_OF_DAY, 10);
@@ -127,12 +127,12 @@ public class DaosService {
     	endDate.add(Calendar.HOUR_OF_DAY, 1);
     	Training training = new Training(trainer, court, starDate, endDate);
     	for (int i = 0; i < 4; i++) {
-    		 training.addPlayer(users[i]);
+    		 training.addPlayer(players[i]);
     	}
     	trainingDao.save(training);
     	
     	 while (endDate.after(starDate) ){
-    		 reserveDao.save(new Reserve(court, starDate));
+    		 reserveDao.save(new Reserve(court, trainer, starDate));
     		 starDate.add(Calendar.WEEK_OF_YEAR, 1);
     	 }
     }
