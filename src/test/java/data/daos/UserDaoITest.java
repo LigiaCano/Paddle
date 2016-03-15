@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Calendar;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,5 +46,25 @@ public class UserDaoITest {
         Token t1 = (Token) daosService.getMap().get("tu1");
         assertEquals(u1, userDao.findByTokenValue(t1.getValue()));
         assertNull(userDao.findByTokenValue("kk"));
+    }
+    
+    @Test
+    public void testFindDistinctByUsernameOrEmailNonExpiredToken() {
+    	Calendar data = Calendar.getInstance();
+        User u1 = (User) daosService.getMap().get("u1");
+        assertEquals(u1, userDao.findByUsernameOrEmailNonExpiredToken(u1.getUsername(),data));
+        assertEquals(u1, userDao.findByUsernameOrEmailNonExpiredToken(u1.getEmail(),data));
+        data.add(Calendar.HOUR_OF_DAY, 1);
+        assertNull(userDao.findByUsernameOrEmailNonExpiredToken(u1.getUsername(),data));
+    }
+
+    @Test
+    public void testFindByTokenValueNonExpiredToken() {
+    	Calendar data = Calendar.getInstance();
+        User u1 = (User) daosService.getMap().get("u1");
+        Token t1 = (Token) daosService.getMap().get("tu1");
+        assertEquals(u1, userDao.findByTokenValueNonExpiredToken(t1.getValue(),data));
+        data.add(Calendar.HOUR_OF_DAY, 1);
+        assertNull(userDao.findByTokenValueNonExpiredToken(t1.getValue(),data));
     }
 }
