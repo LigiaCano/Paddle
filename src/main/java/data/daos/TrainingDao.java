@@ -11,6 +11,10 @@ import data.entities.User;
 
 public interface TrainingDao extends JpaRepository<Training, Integer> {
 	
+	Training findById(int id);
+	
+	List<Training> findByStartDate(Calendar date);
+	
 	List<Training> findByTrainer(User trainer);
 	
 	List<Training> findByCourt(Court court);
