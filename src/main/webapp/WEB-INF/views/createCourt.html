@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Create Court</title>
+</head>
+<body>
+	<form th:action="@{/create-court}" th:object="${court}" method="post">
+		<fieldset>
+		<div th:if="${#fields.hasErrors('*')}">Errors</div>
+			<legend>Create Court</legend>
+				Nº: 
+				<input type="number" min="1" th:field="*{courtId}" required="required" autofocus="autofocus" /> 
+				<span class="error" th:if="${#fields.hasErrors('courtId')}" th:errors="*{courtId}">Existing court</span>
+			<p>
+				<input type="submit" />
+			</p>
+		</fieldset>
+	</form>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Registration Court Success</title>
+</head>
+<body>
+	<h1>Registration Court Success</h1>
+	<h3>The court Nº  <span th:text="${court.courtId}"></span> has been created successfully</h3>
+	<p><a th:href="@{/show-courts}">Show Courts</a></p>
+</body>
+</html>
