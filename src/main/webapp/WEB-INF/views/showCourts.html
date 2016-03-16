@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+<meta charset="utf-8" />
+<title>Courts</title>
+</head>
+<body>
+	<h3>Courts</h3>
+	<div th:if="!${#lists.isEmpty(courtList)}">
+		<table border="1">
+			<thead>
+				<tr>
+					<th>Nº</th>
+					<th>Active</th>
+					<th>#</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="court : ${courtList}">
+					<tr>
+						<td th:text="${court.courtId}"></td>
+						<td th:text="${court.active}"></td>
+						<td><a th:href="@{/update-court/{id}(id=${court.courtId})}">Update Court</a></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+	</div>
+	<div th:if="${#lists.isEmpty(courtList)}">
+		You don't have any courts
+	</div>
+	<p>
+		<a th:href="@{/create-court}">Create Court</a>
+	</p>
+	<p>
+		<a th:href="@{/home}">Home</a>
+	</p>
+</body>
+</html>
