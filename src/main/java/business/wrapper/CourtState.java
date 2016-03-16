@@ -36,6 +36,10 @@ public class CourtState {
     public void setActive(boolean active) {
         this.active = active;
     }
+    
+    public boolean getActive() {
+        return active;
+    }
 
     @Override
     public String toString() {
