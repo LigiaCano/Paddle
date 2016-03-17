@@ -36,13 +36,14 @@ public class DataService {
     
 
     public void deleteAllExceptAdmin(){
+    	trainingDao.deleteAll();
         reserveDao.deleteAll();
         authorizationDao.deleteAll();
         tokenDao.deleteAll();
         courtDao.deleteAll();
         userDao.deleteAll();
-        trainingDao.deleteAll();
         populate.createDefaultAdmin();
+        populate.createDefaultTrainer();
     }
 
 }
