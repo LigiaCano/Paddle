@@ -62,10 +62,6 @@ public class DaosService {
         }
         this.createCourts(1, 4);
         
-        User trainer = createTrainer();
-        map.put(trainer.getUsername(),trainer);
-        this.createTraining(trainer, courtDao.findOne(3), users);
-        
         Calendar date = Calendar.getInstance();
         date.add(Calendar.DAY_OF_YEAR, 1);
         date.set(Calendar.HOUR_OF_DAY, 9);
@@ -76,6 +72,8 @@ public class DaosService {
             date.add(Calendar.HOUR_OF_DAY, 1);
             reserveDao.save(new Reserve(courtDao.findOne(i+1), users[i], date));
         }
+        
+        this.createTraining(courtDao.findOne(3), users);
     }
 
     public User[] createPlayers(int initial, int size) {
@@ -88,11 +86,6 @@ public class DaosService {
         return users;
     }
     
-    public User createTrainer(){
-    	 User trainer = new User("trainer", "trainer@gmail.com", "t", Calendar.getInstance());
-    	 userDao.save(trainer);
-         return trainer;
-    }
 
     public List<Token> createTokens(User[] users) {
         List<Token> tokenList = new ArrayList<>();
@@ -114,7 +107,7 @@ public class DaosService {
         }
     }
     
-    public void createTraining(User trainer, Court court,User[] players){
+    public void createTraining(Court court,User[] users){
     	Calendar starDate = Calendar.getInstance();
     	starDate.add(Calendar.DAY_OF_YEAR, 2);
     	starDate.set(Calendar.HOUR_OF_DAY, 10);
@@ -125,14 +118,14 @@ public class DaosService {
     	Calendar endDate = (Calendar) starDate.clone();
     	endDate.add(Calendar.WEEK_OF_YEAR, 2);
     	endDate.add(Calendar.HOUR_OF_DAY, 1);
-    	Training training = new Training(trainer, court, starDate, endDate);
+    	Training training = new Training(userDao.findByUsernameOrEmail("trainer"), court, starDate, endDate);
     	for (int i = 0; i < 4; i++) {
-    		 training.addPlayer(players[i]);
+    		 training.addPlayer(users[i]);
     	}
     	trainingDao.save(training);
     	
     	 while (endDate.after(starDate) ){
-    		 reserveDao.save(new Reserve(court, trainer, starDate));
+    		 reserveDao.save(new Reserve(court, starDate));
     		 starDate.add(Calendar.WEEK_OF_YEAR, 1);
     	 }
     }
