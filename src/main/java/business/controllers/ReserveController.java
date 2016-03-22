@@ -82,5 +82,12 @@ public class ReserveController {
     public boolean rightTime(int hour) {
         return hour >= START_TIME && hour <= END_TIME;
     }
+    
+    public boolean availabilityCourt(int courtId, Calendar date){
+    	 if (reserveDao.findByCourtAndDate(courtDao.findOne(courtId), date) != null) {
+             return true;
+         }
+    	return false;
+    }
 
 }
