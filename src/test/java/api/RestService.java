@@ -7,7 +7,7 @@ import business.wrapper.UserWrapperBuilder;
 
 public class RestService {
 
-    public static final String URL = "http://localhost:8080/JEE.Paddle.0.0.1-SNAPSHOT" + Uris.SERVLET_MAP;
+    public static final String URL = "http://localhost:8080/Paddle.0.0.1-SNAPSHOT" + Uris.SERVLET_MAP;
 
     public void deleteAll() {
         new RestBuilder<TokenWrapper>(RestService.URL).path(Uris.ADMINS).basicAuth(this.loginAdmin(), "").delete().build();
