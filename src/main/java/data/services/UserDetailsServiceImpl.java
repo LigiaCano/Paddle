@@ -33,13 +33,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(final String usernameOrEmailOrTokenValue) throws UsernameNotFoundException {
-        Calendar date = Calendar.getInstance();
-    	User user = userDao.findByTokenValueNonExpiredToken(usernameOrEmailOrTokenValue, date);
+    	User user = userDao.findByTokenValueNonExpiredToken(usernameOrEmailOrTokenValue, Calendar.getInstance());
         if (user != null) {
             List<Role> roleList = authorizationDao.findRoleByUser(user);
             return this.userBuilder(user.getUsername(), new BCryptPasswordEncoder().encode(""), roleList);
         } else {
-            user = userDao.findByUsernameOrEmailNonExpiredToken(usernameOrEmailOrTokenValue, date);
+            user = userDao.findByUsernameOrEmail(usernameOrEmailOrTokenValue);
             if (user != null) {
                 return this.userBuilder(user.getUsername(), user.getPassword(), Arrays.asList(Role.AUTHENTICATED));
             } else {
