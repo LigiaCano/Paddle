@@ -3,6 +3,7 @@ package config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -33,6 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()//
                 .antMatchers(Uris.SERVLET_MAP + Uris.TOKENS + "/**").authenticated()//
                 .antMatchers(Uris.SERVLET_MAP + Uris.COURTS + "/**").hasRole(Role.ADMIN.name())//
+                .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.RESERVES + "/**").hasRole(Role.PLAYER.name())//
+                .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.TRAININGS).hasRole(Role.TRAINER.name())
+                .antMatchers(HttpMethod.DELETE, Uris.SERVLET_MAP + Uris.TRAININGS ).hasRole(Role.TRAINER.name())
+                .antMatchers(HttpMethod.GET, Uris.SERVLET_MAP + Uris.TRAININGS).hasRole(Role.PLAYER.name())
+                .antMatchers(HttpMethod.PUT, Uris.SERVLET_MAP + Uris.TRAININGS + Uris.ID + Uris.PLAYERS).hasRole(Role.PLAYER.name())
+                .antMatchers(HttpMethod.DELETE, Uris.SERVLET_MAP + Uris.TRAININGS + Uris.ID + Uris.PLAYERS).hasRole(Role.TRAINER.name())
                 .and().httpBasic();
     }
 
