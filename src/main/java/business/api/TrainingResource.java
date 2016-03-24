@@ -96,8 +96,12 @@ public class TrainingResource {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<TrainingWrapper> showTrainings(@RequestParam(required = true) Calendar date) {
-		return trainigController.showTrainings(date);
+	public List<TrainingWrapper> showTrainings(@RequestParam(required = false) Long day) {
+		Calendar calendarDay = Calendar.getInstance();
+		if (day != null) {
+			calendarDay.setTimeInMillis(day);
+		}
+		return trainigController.showTrainings(calendarDay);
 	}
 
 	@RequestMapping(value = Uris.ID + Uris.PLAYERS, method = RequestMethod.PUT)
@@ -123,7 +127,7 @@ public class TrainingResource {
 		if (!trainigController.playerExist(id, playerUsername)) {
 			throw new NotFoundPlayerInTraining(playerUsername);
 		}
-		if (!trainigController.deleteTrainingPlayer(playerUsername, id)){
+		if (!trainigController.deleteTrainingPlayer(playerUsername, id)) {
 			throw new NotFoundTrainingIdException("id: " + id);
 		}
 	}
