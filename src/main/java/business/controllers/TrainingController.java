@@ -96,9 +96,9 @@ public class TrainingController {
 				playersUsername.add(player.getUsername());
 			}
 			Calendar aux = Calendar.getInstance();
-			aux.setTimeInMillis(training.getStartDate().getTimeInMillis() - training.getEndDate().getTimeInMillis());
+			aux.setTimeInMillis(training.getEndDate().getTimeInMillis()- training.getStartDate().getTimeInMillis());
 			TrainingWrapper trainingWrapper = new TrainingWrapper(training.getTrainer().getUsername(),
-					training.getStartDate(), training.getEndDate(), training.getCourt().getId(), aux.getWeekYear());
+					training.getStartDate(), training.getEndDate(), training.getCourt().getId(), aux.get(Calendar.WEEK_OF_YEAR));
 			trainingWrapper.setTrainingId(training.getId());
 			trainingWrapper.setPlayersUsername(playersUsername);
 			trainingWrappers.add(trainingWrapper);

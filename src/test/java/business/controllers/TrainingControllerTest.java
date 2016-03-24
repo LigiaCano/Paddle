@@ -41,8 +41,8 @@ public class TrainingControllerTest {
 	@Test
 	public void testShowTrainings() {
 		Calendar date = Calendar.getInstance();
-		System.out.println(date);
 		assertEquals(trainingController.showTrainings(date).size(),1);
+		System.out.println(trainingController.showTrainings(date));
 	}
 
 }
