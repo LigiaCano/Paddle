@@ -19,16 +19,15 @@ public class CreateTraining {
 	}
 
 	public CreateTraining(Calendar startDate, int numberWeek, int courtId) {
-		this.startDate = startDate;
-		this.numberWeek = numberWeek;
-		this.courtId = courtId;
+		this("",startDate,null,courtId,numberWeek);
 	}
-
-	public CreateTraining(String trainerUsername, Calendar startDate, Calendar endDate, int courtId) {
+	
+	public CreateTraining(String trainerUsername, Calendar startDate, Calendar endDate, int courtId, int numberWeek) {
 		this.trainerUsername = trainerUsername;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.courtId = courtId;
+		this.numberWeek = numberWeek;
 	}
 
 	public String getTrainerUsername() {
@@ -65,8 +64,7 @@ public class CreateTraining {
 	
 	@Override
 	public String toString() {
-		return "CreateTraining [trainerUsername=" + trainerUsername + ", startDate=" + startDate.getTime() + ", endDate="
-				+ endDate.getTime() + ", numberWeek=" + numberWeek + ", courtId=" + courtId + "]";
+		return "CreateTraining [trainerUsername=" + trainerUsername + ", startDate=" + startDate.getTime() + ", numberWeek=" + numberWeek + ", courtId=" + courtId + "]";
 	}
 
 }

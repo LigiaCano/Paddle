@@ -53,7 +53,7 @@ public class TrainingController {
 			if (reserveDao.findByCourtAndDate(courtDao.findOne(createTraining.getCourtId()), starDate) != null) {
 				return false;
 			}
-			 starDate.add(Calendar.WEEK_OF_YEAR, 1);
+			starDate.add(Calendar.WEEK_OF_YEAR, 1);
 		}
 		Training training = new Training(userDao.findByUsernameOrEmail(createTraining.getTrainerUsername()),
 				courtDao.findOne(createTraining.getCourtId()), createTraining.getStartDate(),
@@ -61,8 +61,8 @@ public class TrainingController {
 		trainingDao.save(training);
 		return true;
 	}
-	
-	public boolean deleteTraining(int trainingId){
+
+	public boolean deleteTraining(int trainingId) {
 		Training training = trainingDao.findById(trainingId);
 		if (training == null) {
 			return false;
@@ -84,31 +84,36 @@ public class TrainingController {
 		if (training == null) {
 			return false;
 		}
-		return training.removePlayer(userDao.findByUsernameOrEmail(playerUsername));	
+		return training.removePlayer(userDao.findByUsernameOrEmail(playerUsername));
 	}
 
 	public List<TrainingWrapper> showTrainings(Calendar date) {
-		List<TrainingWrapper> trainingWrapper = new ArrayList<>();
+		List<TrainingWrapper> trainingWrappers = new ArrayList<>();
 		List<Training> trainings = trainingDao.findByStartDate(date);
 		for (Training training : trainings) {
 			List<String> playersUsername = new ArrayList<String>();
 			for (User player : training.getPlayers()) {
 				playersUsername.add(player.getUsername());
 			}
-			trainingWrapper.add(new TrainingWrapper(training.getId(),playersUsername, training.getTrainer().getUsername(),
-					training.getStartDate(), training.getEndDate(), training.getCourt().getId()));
+			Calendar aux = Calendar.getInstance();
+			aux.setTimeInMillis(training.getStartDate().getTimeInMillis() - training.getEndDate().getTimeInMillis());
+			TrainingWrapper trainingWrapper = new TrainingWrapper(training.getTrainer().getUsername(),
+					training.getStartDate(), training.getEndDate(), training.getCourt().getId(), aux.getWeekYear());
+			trainingWrapper.setTrainingId(training.getId());
+			trainingWrapper.setPlayersUsername(playersUsername);
+			trainingWrappers.add(trainingWrapper);
 		}
-		return trainingWrapper;
+		return trainingWrappers;
 	}
-	
-	public boolean exist(int trainingId){
-		return trainingDao.findOne(trainingId)!= null;
+
+	public boolean exist(int trainingId) {
+		return trainingDao.findOne(trainingId) != null;
 	}
-	
-	public boolean playerExist(int trainingId, String playerUsername){
+
+	public boolean playerExist(int trainingId, String playerUsername) {
 		Training training = trainingDao.findById(trainingId);
 		for (User player : training.getPlayers()) {
-			if (player.getUsername().equals(playerUsername)){
+			if (player.getUsername().equals(playerUsername)) {
 				return true;
 			}
 		}

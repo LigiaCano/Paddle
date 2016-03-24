@@ -13,13 +13,11 @@ public class TrainingWrapper extends CreateTraining {
 		super();
 	}
 
-	public TrainingWrapper(int trainingId, List<String> playersUsername, String trainerUsername, Calendar startDate,
-			Calendar endDate, int courtId) {
-		super(trainerUsername, startDate, endDate, courtId);
-		this.trainingId = trainingId;
-		this.playersUsername = playersUsername;
-		// TODO Auto-generated constructor stub
+	public TrainingWrapper(String trainerUsername, Calendar startDate, Calendar endDate, int courtId, int numberWeek) {
+		super(trainerUsername, startDate, endDate, courtId, numberWeek);
 	}
+
+
 
 	public int getTrainingId() {
 		return trainingId;
