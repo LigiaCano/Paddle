@@ -47,27 +47,6 @@ public class TrainingResourceFunctionalTesting {
 		CreateTraining createTraining = new CreateTraining(starDate, 1, 1);
 		restService.createTraining(createTraining);
 	}
-
-
-
-	@Test
-	public void testRegisterTrainingUnauthorized() {
-		try {
-			restService.createCourt("1");
-			Calendar starDate = Calendar.getInstance();
-			starDate.set(Calendar.HOUR_OF_DAY, 12);
-			CreateTraining createTraining = new CreateTraining(starDate, 1, 1);
-			restService.createTraining(createTraining);
-			new RestBuilder<Object>(RestService.URL).path(Uris.TRAININGS).pathId(1).path(Uris.PLAYERS)
-					.body(createTraining).post().build();
-			fail();
-		} catch (HttpClientErrorException httpError) {
-			System.out.println(httpError.getStatusCode());
-			assertEquals(HttpStatus.UNAUTHORIZED, httpError.getStatusCode());
-			LogManager.getLogger(this.getClass()).info("testRegisterTraining (" + httpError.getMessage() + "):\n    "
-					+ httpError.getResponseBodyAsString());
-		}
-	}
 	
 	@Test
 	public void testRegisterTraining() {
