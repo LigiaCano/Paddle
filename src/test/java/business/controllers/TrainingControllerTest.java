@@ -17,7 +17,7 @@ import config.TestsPersistenceConfig;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { PersistenceConfig.class, TestsPersistenceConfig.class })
 public class TrainingControllerTest {
-
+	 
 	@Autowired
 	private TrainingController trainingController;
 
@@ -41,8 +41,24 @@ public class TrainingControllerTest {
 	@Test
 	public void testShowTrainings() {
 		Calendar date = Calendar.getInstance();
-		assertEquals(trainingController.showTrainings(date).size(),1);
+		assertEquals(trainingController.showTrainings(date).size(), 1);
 		System.out.println(trainingController.showTrainings(date));
+	}
+
+	@Test
+	public void testRegisterTraining() {
+		assertFalse(trainingController.registerTraining("u4", 1));
+	}
+
+	@Test
+	public void testPlayerExist() {
+		assertTrue(trainingController.playerExist(1, "u3"));
+	}
+
+	@Test
+	public void testDeleteTrainingPlayer() {
+		assertTrue(trainingController.deleteTrainingPlayer("u3", 1));
+		assertTrue(trainingController.registerTraining("u3", 1));
 	}
 
 }
