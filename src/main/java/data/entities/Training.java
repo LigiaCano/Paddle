@@ -36,8 +36,6 @@ public class Training {
 	
 	private int numberOfPlayers;
 	
-	private static final int NUMBEROFPLAYERS = 4;
-	
 	public Training(){
 		
 	}
@@ -48,7 +46,6 @@ public class Training {
 		this.startDate = startDate;
 		this.endDate= endDate;
 		this.players= new ArrayList<User>();
-		this.numberOfPlayers = NUMBEROFPLAYERS;
 	}
 
 	public int getId() {
@@ -105,12 +102,7 @@ public class Training {
 	}
 	
 	public boolean addPlayer(User player){
-		if(this.players.size() < this.numberOfPlayers){
 			return this.players.add(player);
-		}
-		else{
-			return false;
-		}
 	}
 	
 	public boolean removePlayer(User player){

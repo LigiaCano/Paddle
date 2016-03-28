@@ -26,6 +26,8 @@ public class TrainingController {
 	private CourtDao courtDao;
 
 	private UserDao userDao;
+	
+	private static final int NUMBEROFPLAYERS = 4;
 
 	@Autowired
 	public void setTrainingDao(TrainingDao trainingDao) {
@@ -76,7 +78,12 @@ public class TrainingController {
 		if (training == null) {
 			return false;
 		}
-		return training.addPlayer(userDao.findByUsernameOrEmail(playerUsername));
+		if (training.getPlayers().size() == NUMBEROFPLAYERS){
+			return false;
+		}
+		training.addPlayer(userDao.findByUsernameOrEmail(playerUsername));
+		trainingDao.save(training);
+		return true;
 	}
 
 	public boolean deleteTrainingPlayer(String playerUsername, int trainingId) {
@@ -84,7 +91,9 @@ public class TrainingController {
 		if (training == null) {
 			return false;
 		}
-		return training.removePlayer(userDao.findByUsernameOrEmail(playerUsername));
+		training.removePlayer(userDao.findByUsernameOrEmail(playerUsername));
+		trainingDao.save(training);
+		return true;
 	}
 
 	public List<TrainingWrapper> showTrainings(Calendar date) {
@@ -95,10 +104,11 @@ public class TrainingController {
 			for (User player : training.getPlayers()) {
 				playersUsername.add(player.getUsername());
 			}
-			Calendar aux = Calendar.getInstance();
-			aux.setTimeInMillis(training.getEndDate().getTimeInMillis()- training.getStartDate().getTimeInMillis());
+			Calendar differenceDate = Calendar.getInstance();
+			differenceDate.setTimeInMillis(training.getEndDate().getTimeInMillis() - training.getStartDate().getTimeInMillis());
 			TrainingWrapper trainingWrapper = new TrainingWrapper(training.getTrainer().getUsername(),
-					training.getStartDate(), training.getEndDate(), training.getCourt().getId(), aux.get(Calendar.WEEK_OF_YEAR));
+					training.getStartDate(), training.getEndDate(), training.getCourt().getId(),
+					differenceDate.get(Calendar.WEEK_OF_YEAR));
 			trainingWrapper.setTrainingId(training.getId());
 			trainingWrapper.setPlayersUsername(playersUsername);
 			trainingWrappers.add(trainingWrapper);

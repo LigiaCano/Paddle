@@ -38,7 +38,7 @@ public class TrainingWrapper extends CreateTraining {
 	@Override
 	public String toString() {
 		return "TrainingWrapper [trainingId=" + trainingId + ", playersUsername=" + playersUsername
-				+ ", getNumberWeek()=" + getNumberWeek() + "]";
+				+ ", getNumberWeek()=" + getNumberWeek() + ", getTrainerUsername()=" + getTrainerUsername() +"]";
 	}
 
 }

@@ -104,7 +104,7 @@ public class TrainingResource {
 		return trainigController.showTrainings(calendarDay);
 	}
 
-	@RequestMapping(value = Uris.ID + Uris.PLAYERS, method = RequestMethod.PUT)
+	@RequestMapping(value = Uris.ID + Uris.PLAYERS, method = RequestMethod.POST)
 	public void registerTraining(@AuthenticationPrincipal User player, @PathVariable int id)
 			throws NotFoundTrainingIdException, AlreadyExistPlayerInTraining, AlreadyFullTrainingException {
 		if (!trainigController.exist(id)) {
@@ -113,7 +113,7 @@ public class TrainingResource {
 		if (trainigController.playerExist(id, player.getUsername())) {
 			throw new AlreadyExistPlayerInTraining(player.getUsername());
 		}
-		if (trainigController.registerTraining(player.getUsername(), id)) {
+		if (!trainigController.registerTraining(player.getUsername(), id)) {
 			throw new AlreadyFullTrainingException("id: " + id);
 		}
 	}
