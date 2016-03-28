@@ -13,6 +13,7 @@ public class RestService {
 	public void deleteAll() {
 		new RestBuilder<TokenWrapper>(RestService.URL).path(Uris.ADMINS).basicAuth(this.loginAdmin(), "").delete()
 				.build();
+		
 	}
 
 	public String loginAdmin() {
@@ -43,5 +44,5 @@ public class RestService {
 		new RestBuilder<Object>(RestService.URL).path(Uris.TRAININGS).body(createTraining)
 				.basicAuth(this.loginTrainer(), "").post().build();
 	}
-
+	
 }

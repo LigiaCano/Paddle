@@ -42,26 +42,55 @@ public class TrainingResourceFunctionalTesting {
 	public void testCreateTraining() {
 		restService.createCourt("1");
 		Calendar starDate = Calendar.getInstance();
-		starDate.set(Calendar.HOUR_OF_DAY, 10);
+		starDate.add(Calendar.DAY_OF_YEAR, 1);
+		starDate.set(Calendar.HOUR_OF_DAY, 14);
 		CreateTraining createTraining = new CreateTraining(starDate, 1, 1);
 		restService.createTraining(createTraining);
 	}
+
+
+
+	@Test
+	public void testRegisterTrainingUnauthorized() {
+		try {
+			restService.createCourt("1");
+			Calendar starDate = Calendar.getInstance();
+			starDate.set(Calendar.HOUR_OF_DAY, 12);
+			CreateTraining createTraining = new CreateTraining(starDate, 1, 1);
+			restService.createTraining(createTraining);
+			new RestBuilder<Object>(RestService.URL).path(Uris.TRAININGS).pathId(1).path(Uris.PLAYERS)
+					.body(createTraining).post().build();
+			fail();
+		} catch (HttpClientErrorException httpError) {
+			System.out.println(httpError.getStatusCode());
+			assertEquals(HttpStatus.UNAUTHORIZED, httpError.getStatusCode());
+			LogManager.getLogger(this.getClass()).info("testRegisterTraining (" + httpError.getMessage() + "):\n    "
+					+ httpError.getResponseBodyAsString());
+		}
+	}
 	
 	@Test
-	public void testShowTrainings(){
+	public void testRegisterTraining() {
 		restService.createCourt("2");
 		Calendar starDate = Calendar.getInstance();
 		starDate.add(Calendar.DAY_OF_YEAR, 1);
-		starDate.set(Calendar.HOUR_OF_DAY, 10);
+		starDate.set(Calendar.HOUR_OF_DAY, 14);
 		CreateTraining createTraining = new CreateTraining(starDate, 1, 2);
 		restService.createTraining(createTraining);
 		String token = restService.registerAndLoginPlayer();
-		List<TrainingWrapper> list = Arrays.asList(new RestBuilder<TrainingWrapper[]>(RestService.URL).path(Uris.TRAININGS).param("day","" + Calendar.getInstance().getTimeInMillis()).basicAuth(token, "")
+		List<TrainingWrapper> list = Arrays.asList(new RestBuilder<TrainingWrapper[]>(RestService.URL)
+				.path(Uris.TRAININGS).param("day", "" + Calendar.getInstance().getTimeInMillis()).basicAuth(token, "")
 				.clazz(TrainingWrapper[].class).get().build());
-		System.out.println(list);
+		String response = "";
+		for (TrainingWrapper trainingWrapper : list) {
+			response = new RestBuilder<String>(RestService.URL).path(Uris.TRAININGS)
+					.pathId(trainingWrapper.getTrainingId()).path(Uris.PLAYERS).body(createTraining)
+					.basicAuth(token, "").clazz(String.class).post().build();
+		}
 		assertEquals(1, list.size());
+		LogManager.getLogger(this.getClass()).info("testRegisterTraining (" + response + ")");
 	}
-	
+
 	@After
 	public void deleteAll() {
 		new RestService().deleteAll();
