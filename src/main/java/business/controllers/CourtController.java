@@ -26,6 +26,7 @@ public class CourtController {
         } else {
             courtDao.save(new Court(courtId));
             return true;
+            
         }
     }
 

@@ -38,4 +38,11 @@ public class UserController {
             return false;
         }
     }
+    
+    public boolean exist(String username) {
+    	if ((userDao.findByUsernameOrEmail(username))!= null)
+    		return true ;
+    	else
+    		return false;
+	}
 }

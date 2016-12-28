@@ -77,6 +77,6 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token [id=" + id + ", value=" + value + ", userId=" + user.getId() + "expirationDate" + expirationDate + "]";
+        return "Token [id=" + id + ", value=" + value + ", userId=" + user.getId() + "expirationDate" + expirationDate.getTime() + "]";
     }
 }

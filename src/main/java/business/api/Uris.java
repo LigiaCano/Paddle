@@ -23,5 +23,37 @@ public class Uris {
     public static final String TRAININGS = "/trainings";
     
     public static final String PLAYERS ="/players";
+    
+    public static final String FACEBOOK ="/facebook";
+    
+    public static final String TWITTER = "/twitter";
+    
+    public static final String LINKEDIN = "/linkedin";
+    
+    public static final String CONNECT ="/connect";
+    
+    public static final String PROFILE = "/profile";
+    
+    public static final String FRIENDS = "/friends";
+    
+    public static final String PAGES = "/pages";
+    
+    public static final String FEEDS = "/feeds";
+    
+    public static final String TWEETS = "/tweets";
+    
+    public static final String TIMELINETYPE = "/{timelineType}";
+    
+    public static final String TIMELINE = "/timeline";
+    
+    public static final String RETWEETS = "/retweets";
+    
+    public static final String SEARCH = "/search";
+    
+    public static final String CONNECTIONS = "connections";
+    
+    public static final String BATCH ="/batch";
+    
+    public static final String JOB ="/job";
 
 }

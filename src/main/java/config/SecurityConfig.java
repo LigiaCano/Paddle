@@ -7,10 +7,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import data.entities.Role;
@@ -28,24 +31,51 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
+    
+//    @Override
+// 	public void configure(WebSecurity web) throws Exception {
+// 		web
+// 			.ignoring()
+// 				.antMatchers("/resources/**");
+// 	}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//			.formLogin()
+//				.loginPage("/signin")
+//				.loginProcessingUrl("/signin/authenticate")
+//				.failureUrl("/signin?param.error=bad_credentials")
+//			.and()
+//				.logout()
+//					.logoutUrl("/signout")
+//					.deleteCookies("JSESSIONID")
+////			.and()
+////				.authorizeRequests()
+////					.antMatchers("/admin/**", "/favicon.ico", "/resources/**", "/auth/**", "/signin/**", "/signup/**", "/disconnect/facebook").permitAll()
+////					.antMatchers("/**").authenticated()
+//			.and()
+//				.rememberMe();
         http.csrf().disable().authorizeRequests()//
-                .antMatchers(Uris.SERVLET_MAP + Uris.TOKENS + "/**").authenticated()//
-                .antMatchers(Uris.SERVLET_MAP + Uris.COURTS + "/**").hasRole(Role.ADMIN.name())//
-                .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.RESERVES + "/**").hasRole(Role.PLAYER.name())//
-                .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.TRAININGS).hasRole(Role.TRAINER.name())
-                .antMatchers(HttpMethod.DELETE, Uris.SERVLET_MAP + Uris.TRAININGS ).hasRole(Role.TRAINER.name())
-                .antMatchers(HttpMethod.GET, Uris.SERVLET_MAP + Uris.TRAININGS).hasRole(Role.PLAYER.name())
-                .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.TRAININGS + Uris.ID + Uris.PLAYERS).hasRole(Role.PLAYER.name())
-                .antMatchers(HttpMethod.DELETE, Uris.SERVLET_MAP + Uris.TRAININGS + Uris.ID + Uris.PLAYERS).hasRole(Role.TRAINER.name())
-                .and().httpBasic();
+	        .antMatchers(Uris.SERVLET_MAP + Uris.TOKENS + "/**").authenticated()//
+	        .antMatchers(Uris.SERVLET_MAP + Uris.COURTS + "/**").hasRole(Role.ADMIN.name())//
+	        .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.RESERVES + "/**").hasRole(Role.PLAYER.name())//
+	        .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.TRAININGS).hasRole(Role.TRAINER.name())
+	        .antMatchers(HttpMethod.DELETE, Uris.SERVLET_MAP + Uris.TRAININGS ).hasRole(Role.TRAINER.name())
+	        .antMatchers(HttpMethod.GET, Uris.SERVLET_MAP + Uris.TRAININGS).hasRole(Role.PLAYER.name())
+	        .antMatchers(HttpMethod.POST, Uris.SERVLET_MAP + Uris.TRAININGS + Uris.ID + Uris.PLAYERS).hasRole(Role.PLAYER.name())
+	        .antMatchers(HttpMethod.DELETE, Uris.SERVLET_MAP + Uris.TRAININGS + Uris.ID + Uris.PLAYERS).hasRole(Role.TRAINER.name())
+	        .and().httpBasic();
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
+    @Bean
+   	public TextEncryptor textEncryptor() {
+   		return Encryptors.noOpText();
+   	}
 
 }

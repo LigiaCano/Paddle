@@ -101,7 +101,7 @@
 			<properties>
 				<logs.level>error</logs.level>
 				<logs.path>../logs</logs.path>
-				<database.url>jdbc:mysql://localhost:3306/jee</database.url>
+				<database.url>jdbc:mysql://localhost:3306/paddle</database.url>
 				<database.user>root</database.user>
 				<database.password></database.password>
 				<hibernate.hbm2ddl.auto>create</hibernate.hbm2ddl.auto>
@@ -253,6 +253,48 @@
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring.data.version}</version>
         </dependency>
+        <!-- Batch -->
+		 <dependency>
+	        <groupId>org.springframework.batch</groupId>
+	        <artifactId>spring-batch-core</artifactId>
+	        <version>3.0.7.RELEASE</version>
+	    </dependency>
+	    <dependency>
+			<groupId>org.springframework.batch</groupId>
+			<artifactId>spring-batch-test</artifactId>
+			<version>3.0.7.RELEASE</version>
+		</dependency>
+		<!-- Social -->
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-core</artifactId>
+		    <version>1.1.4.RELEASE</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework.social</groupId>
+		    <artifactId>spring-social-config</artifactId>
+		    <version>1.1.4.RELEASE</version>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 		    <groupId>org.springframework.social</groupId> -->
+<!-- 		    <artifactId>spring-social-web</artifactId> -->
+<!-- 		    <version>1.1.4.RELEASE</version> -->
+<!-- 		</dependency> -->
+        <dependency>
+	        <groupId>org.springframework.social</groupId>
+	        <artifactId>spring-social-facebook</artifactId>
+	        <version>2.0.3.RELEASE</version>
+	    </dependency>
+	     <dependency>
+	        <groupId>org.springframework.social</groupId>
+	        <artifactId>spring-social-twitter</artifactId>
+	        <version>1.1.0.RELEASE</version>
+	    </dependency>
+	     <dependency>
+	        <groupId>org.springframework.social</groupId>
+	        <artifactId>spring-social-linkedin</artifactId>
+	        <version>1.0.0.RELEASE</version>
+	    </dependency>
 	</dependencies>
 	<build>
 		<finalName>${deploy}</finalName>

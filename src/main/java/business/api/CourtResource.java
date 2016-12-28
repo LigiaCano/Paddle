@@ -2,6 +2,8 @@ package business.api;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import business.api.exceptions.AlreadyExistCourtIdException;
 import business.api.exceptions.NotFoundCourtIdException;
 import business.controllers.CourtController;
+import business.controllers.SocialController;
 import business.wrapper.CourtState;
 
 @RestController
@@ -19,10 +22,12 @@ import business.wrapper.CourtState;
 public class CourtResource {
 
     private CourtController courtController;
+    private SocialController socialController;
 
     @Autowired
-    public void setCourtController(CourtController courtController) {
+    public void setCourtController(CourtController courtController, SocialController socialController) {
         this.courtController = courtController;
+        this.socialController = socialController;
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -30,6 +35,8 @@ public class CourtResource {
         if (!this.courtController.createCourt(id)) {
             throw new AlreadyExistCourtIdException();
         }
+        socialController.postFacebook("Creada pista Nº: " + id);
+        socialController.postTwitter("Creada pista Nº: " + id);
     }
 
     @RequestMapping(value = Uris.ID + Uris.ACTIVE, method = RequestMethod.POST)

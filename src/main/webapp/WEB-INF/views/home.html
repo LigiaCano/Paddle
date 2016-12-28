@@ -1,12 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
-<head>
-<meta charset="utf-8" />
-<title>Spring 4 MVC. Home</title>
-</head>
-<body>
-	<p><span th:text="${now}"></span></p>
-	<h3><span th:text="${welcome}"></span></h3>
-	<p><a th:href="@{/show-courts}">Show Courts</a></p>
-</body>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:social="http://spring.io/springsocial"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		<title>home</title>
+	</head>
+	<body>
+		<div id="header">
+			<h1><a th:href="@{/}">Spring Paddle MIW</a></h1>
+		</div>
+		
+		<div id="content" layout:fragment="content">
+			<p>Welcome, <span th:text="${user.username}">first-name</span>!</p>
+			
+			<form method="POST" th:action="@{/signout}">
+				<input type="hidden" name="_csrf" th:value="${token}" />
+				<button>Sign Out</button>
+			</form>
+		</div>		
+	</body>
 </html>
