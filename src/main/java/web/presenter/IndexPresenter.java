@@ -1,18 +1,21 @@
 package web.presenter;
 
+import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import data.daos.UserDao;
+
 @Controller
 public class IndexPresenter {
 
 	public IndexPresenter() {
-
 	}
 
 	@ModelAttribute("now")
@@ -22,12 +25,14 @@ public class IndexPresenter {
 	
 	@ModelAttribute("welcome")
 	public String welcome() {
-		return "Welcome Club Paddle";
+		return "Welcome Club Paddle" ; 
 	}
 	
-	@RequestMapping(Uris.HOME)
-	public String home(Model model) {
-		return "/home";
+	@RequestMapping(Uris.INDEX)
+	public String index(Principal currentUser,Model model) {
+		return "/index";
 	}
+	
+
 
 }

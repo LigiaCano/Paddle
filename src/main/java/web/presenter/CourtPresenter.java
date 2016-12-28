@@ -30,7 +30,7 @@ public class CourtPresenter {
 	@RequestMapping(value = Uris.CREATECOURT, method = RequestMethod.GET)
 	public String createCourt(Model model) {
 		model.addAttribute("court", new CourtState());
-		return "createCourt";
+		return "court/createCourt";
 	}
 
 	@RequestMapping(value = Uris.CREATECOURT, method = RequestMethod.POST)
@@ -38,18 +38,18 @@ public class CourtPresenter {
 		if (!bindingResult.hasErrors()) {
 			if (this.courtController.createCourt(court.getCourtId())) {
 				model.addAttribute("court", court);
-				return "registrationCourtSuccess";
+				return "court/registrationCourtSuccess";
 			} else {
 				bindingResult.rejectValue("courtId", "error.court", "Existing court");
 			}
 		}
 		model.addAttribute("court", court);
-		return "createCourt";
+		return "court/createCourt";
 	}
 
 	@RequestMapping(Uris.SHOWCOURTS)
 	public ModelAndView listUsers(Model model) {
-		ModelAndView modelAndView = new ModelAndView("/showCourts");
+		ModelAndView modelAndView = new ModelAndView("court/showCourts");
 		modelAndView.addObject("courtList", courtController.showCourts());
 		return modelAndView;
 	}
@@ -57,7 +57,7 @@ public class CourtPresenter {
 	@RequestMapping(value = Uris.UPDATECOURT + "/{id}", method = RequestMethod.GET)
 	public String updateCourt(@PathVariable int id, Model model) {
 		model.addAttribute("court", courtController.showCourt(id));
-		return "updateCourt";
+		return "court/updateCourt";
 	}
 
 	@RequestMapping(value = Uris.UPDATECOURT, method = RequestMethod.POST)
@@ -65,11 +65,11 @@ public class CourtPresenter {
 		if (!bindingResult.hasErrors()) {
 			if (this.courtController.changeCourtActivation(court.getCourtId(), court.getActive())) {
 				model.addAttribute("courtList", courtController.showCourts());
-				return "showCourts";
+				return "court/showCourts";
 			}
 		}
 		model.addAttribute("court", court);
-		return "updateCourt";
+		return "court/updateCourt";
 	}
 
 }
