@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:social="http://spring.io/springsocial"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		<title>Spring Social</title>
+	</head>
+	<body>
+		<div id="content" layout:fragment="content">
+			<h3>Connect to Twitter</h3>
+			
+			<form th:action="@{/connect/twitter}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${token}" />
+				<div class="formInfo">
+					<p>
+						You haven't created any connections with Twitter yet. Click the button to connect Spring Social with your Twitter account. 
+					</p>
+				</div>
+				<p><button type="submit">Connect with twitter</button></p>
+				<label for="postTweet"><input id="postTweet" type="checkbox" name="postTweet" /> Post a tweet about connecting with Spring Social Showcase</label>
+			</form>
+		</div>
+	</body>
+</html>

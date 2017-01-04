@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:social="http://spring.io/springsocial"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		<title>Signup</title>
+	</head>
+	<body>
+		<div id="header">
+			<h1><a th:href="@{/}">Spring Social</a></h1>
+		</div>
+		
+		<div id="content" layout:fragment="content">
+			<h3>Sign Up</h3>
+			
+			<form id="signup" th:action="@{/signup}" method="post" th:object="${userWrapper}">
+				<input type="hidden" name="_csrf" th:value="${token}" />
+				<div class="formInfo">
+					<div class="error" th:if="${#fields.hasErrors('*')}">Unable to sign up. Please fix the errors below and resubmit.</div>
+				</div>
+				
+				<fieldset>
+					<label for="username">Username <span th:if="${#fields.hasErrors('username')}" class="error" th:text="${#fields.errors('username')[0]}">Error</span></label>
+					<input type="text" th:field="*{username}" />
+					<label for="email">Email <span th:if="${#fields.hasErrors('email')}" class="error" th:text="${#fields.errors('email')[0]}">Error</span></label>
+					<input type="text" th:field="*{email}" />
+					<label for="password">Password (at least 6 characters) <span th:if="${#fields.hasErrors('password')}" class="error" th:text="${#fields.errors('password')[0]}">Error</span></label>
+					<input type="password" th:field="*{password}" />
+				</fieldset>
+				<p><button type="submit">Sign Up</button></p>
+			</form>
+		</div>
+	</body>
+</html>
+

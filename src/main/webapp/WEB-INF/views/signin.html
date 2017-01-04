@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:social="http://spring.io/springsocial"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorator="layout">
+	<head>
+		<title>signin</title>
+	</head>
+	<body>
+		<div id="header">
+			<h1><a th:href="@{/}">Spring Paddle MIW</a></h1>
+		</div>
+		
+		<div id="content" layout:fragment="content">
+
+			<!-- TWITTER SIGNIN -->
+			<form id="tw_signin" th:action="@{/signin/twitter}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${token}"></input>
+				<button type="submit">Sign In with Twitter</button>
+			</form>
+		
+			<!-- FACEBOOK SIGNIN -->
+			<form name="fb_signin" id="fb_signin" th:action="@{/signin/facebook}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${token}"></input>
+				<input type="hidden" name="scope" value="manage_pages,user_posts,user_photos,publish_pages"></input>
+				<button type="submit">Sign In with Facebook</button>
+			</form>
+		
+			<!-- LINKEDIN SIGNIN -->
+			<form name="li_signin" id="li_signin" th:action="@{/signin/linkedin}" method="POST">
+				<input type="hidden" name="_csrf" th:value="${token}"></input>
+				<button type="submit">Sign In with LinkedIn</button>
+			</form>
+		</div>		
+	</body>
+</html>
