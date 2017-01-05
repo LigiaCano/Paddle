@@ -6,11 +6,6 @@ import java.util.Calendar;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.social.InsufficientPermissionException;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.facebook.api.Facebook;
-import org.springframework.social.twitter.api.Twitter;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,6 +16,7 @@ import business.api.exceptions.InvalidCourtReserveException;
 import business.api.exceptions.InvalidDateException;
 import business.controllers.CourtController;
 import business.controllers.ReserveController;
+import business.controllers.SocialController;
 import business.wrapper.Availability;
 import business.wrapper.AvailableTime;
 
@@ -32,7 +28,9 @@ public class ReserveResource {
 
 	private CourtController courtController;
 
-	private ConnectionRepository connectionRepository;
+	private SocialController socialController;
+
+	// private ConnectionRepository connectionRepository;
 
 	@Autowired
 	public void setCourtController(CourtController courtController) {
@@ -44,9 +42,15 @@ public class ReserveResource {
 		this.reserveController = reserveController;
 	}
 
+	// @Autowired
+	// public void setConnectionRepository(ConnectionRepository
+	// connectionRepository) {
+	// this.connectionRepository = connectionRepository;
+	// }
+
 	@Autowired
-	public void setConnectionRepository(ConnectionRepository connectionRepository) {
-		this.connectionRepository = connectionRepository;
+	public void setSocialController(SocialController socialController) {
+		this.socialController = socialController;
 	}
 
 	@RequestMapping(value = Uris.AVAILABILITY, method = RequestMethod.GET)
@@ -90,21 +94,8 @@ public class ReserveResource {
 
 		}
 		String time = new SimpleDateFormat("dd-MMM-yyyy HH:00").format(date.getTime());
-		postFacebook("Reserva de pista en la fecha " + time);
-		postTwitter("Reserva de pista en la fecha " + time);	
+		socialController.postFacebook("Reserva de pista en la fecha " + time);
+		socialController.postTwitter("Reserva de pista en la fecha " + time);
 	}
-	
-	public void postFacebook(String message) throws InsufficientPermissionException{
-		Connection<Facebook> connection = connectionRepository.findPrimaryConnection(Facebook.class);
-		if (connection != null) {
-			connection.getApi().feedOperations().updateStatus(message);
-		}	
-	}
-	
-	public void postTwitter(String message)throws InsufficientPermissionException{
-		Connection<Twitter> connection = connectionRepository.findPrimaryConnection(Twitter.class);
-		if (connection != null) {
-			connection.getApi().timelineOperations().updateStatus(message);
-		}	
-	}
+
 }
