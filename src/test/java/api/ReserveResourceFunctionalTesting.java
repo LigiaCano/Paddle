@@ -50,7 +50,7 @@ public class ReserveResourceFunctionalTesting {
 		String token = restService.registerAndLoginPlayer();
 		new RestBuilder<Object>(RestService.URL).path("/facebook/connect")
 		.param("token",
-				"EAAXUt5rij5gBAPXNX6w1NsGsLnNaHWk1S1ojNuhg6aqZBrJoShA2uRvzgGR4sNqFQX34SGhZAXe2WuKPGrsWZCfncbCUN3jNvHdjLv4UZAbyRWrJto6qOcroKudmB79qaZAY45QZBZBZBauNrhZAr4DENTq8pcqTZBozbmuVfhAksugG4a70Y4tWDG")
+				"EAAXUt5rij5gBAOdZB3TSGt6lhXl4fldwttZCBEQKkSER4wzoSNuhfWFBmGLPeBFoao3aUXknJ4NncirvmkblZCO7x1VqKVkS5ZA4C552izBZB7ZAe0eZBzOlClfTZBFcSvSso1lyQXrs09Tv3lp3pGZB5msCrFFzUfl7uM2WMFrK7IUdSDzH6hUFb")
 		.basicAuth(token, "").post().build();
 		Calendar day = Calendar.getInstance();
 		day.add(Calendar.DAY_OF_YEAR, 1);
