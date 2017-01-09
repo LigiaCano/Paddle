@@ -67,7 +67,9 @@ public class TwitterResource {
 
 	@RequestMapping(value = Uris.PROFILE, method = RequestMethod.GET)
 	public TwitterProfile profile() throws NotFoundConnectionException {
-		foundConnection();
+		if (twitter == null){
+			throw new NotFoundConnectionException();
+		}
 		TwitterProfile user = twitter.userOperations().getUserProfile();
 		return user;
 	}
@@ -76,7 +78,9 @@ public class TwitterResource {
 	@RequestMapping(value = Uris.TIMELINETYPE + Uris.TIMELINE, method = RequestMethod.GET)
 	public List<Tweet> showTimeline(@PathVariable("timelineType") String timelineType)
 			throws NotFoundConnectionException {
-		foundConnection();
+		if (twitter == null){
+			throw new NotFoundConnectionException();
+		}
 		List<Tweet> tweet = null;
 		if (timelineType.equals("Home")) {
 			tweet = twitter.timelineOperations().getHomeTimeline();
@@ -95,26 +99,33 @@ public class TwitterResource {
 
 	@RequestMapping(value = Uris.TWEETS, method = RequestMethod.POST)
 	public void postTweet(@RequestParam(required = true) String message) throws NotFoundConnectionException {
-		foundConnection();
+		if (twitter == null){
+			throw new NotFoundConnectionException();
+		}
 		twitter.timelineOperations().updateStatus(message);
 	}
 	
 	@RequestMapping(value = Uris.RETWEETS, method = RequestMethod.POST)
 	public void postReTweet(@RequestParam(required = true) long tweetId) throws NotFoundConnectionException {
-		foundConnection();
+		if (twitter == null){
+			throw new NotFoundConnectionException();
+		}
 		twitter.timelineOperations().retweet(tweetId);
 	}
 	
 	@RequestMapping(value = Uris.SEARCH, method = RequestMethod.GET)
 	public SearchResults search(@RequestParam(required = true) String search)throws NotFoundConnectionException{
+		if (twitter == null){
+			throw new NotFoundConnectionException();
+		}
 		SearchResults results = twitter.searchOperations().search(search);
 		return results;
 	}
 
-	private void foundConnection() throws NotFoundConnectionException {
-		if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
-			throw new NotFoundConnectionException();
-		}
-	}
+//	private void foundConnection() throws NotFoundConnectionException {
+//		if (connectionRepository.findPrimaryConnection(Twitter.class) == null) {
+//			throw new NotFoundConnectionException();
+//		}
+//	}
 
 }

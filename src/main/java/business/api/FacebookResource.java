@@ -79,21 +79,27 @@ public class FacebookResource {
 
 	@RequestMapping(value = Uris.PROFILE, method = RequestMethod.GET)
 	public User profile() throws NotFoundConnectionException, InsufficientPermissionException {
-		foundConnection();
+		if (facebook == null){
+			throw new NotFoundConnectionException();
+		}
 		User user = facebook.userOperations().getUserProfile();
 		return user;
 	}
 
 	@RequestMapping(value = Uris.FRIENDS, method = RequestMethod.GET)
 	public List<User> friends() throws NotFoundConnectionException, InsufficientPermissionException {
-		foundConnection();
+		if (facebook == null){
+			throw new NotFoundConnectionException();
+		}
 		List<User> friends = facebook.friendOperations().getFriendProfiles();
 		return friends;
 	}
 
 	@RequestMapping(value = Uris.FEEDS, method = RequestMethod.GET)
 	public List<Post> showFeed() throws NotFoundConnectionException, InsufficientPermissionException {
-		foundConnection();
+		if (facebook == null){
+			throw new NotFoundConnectionException();
+		}
 		List<Post> feed = facebook.feedOperations().getFeed();
 		return feed;
 
@@ -102,13 +108,17 @@ public class FacebookResource {
 	@RequestMapping(value = Uris.FEEDS, method = RequestMethod.POST)
 	public void postUpdate(@RequestParam(required = true) String message)
 			throws NotFoundConnectionException, InsufficientPermissionException {
-		foundConnection();
+		if (facebook == null){
+			throw new NotFoundConnectionException();
+		}
 		facebook.feedOperations().updateStatus(message);
 	}
 
 	@RequestMapping(value = Uris.PAGES, method = RequestMethod.GET)
 	public PagedList<Account> showPage() throws NotFoundConnectionException, InsufficientPermissionException {
-		foundConnection();
+		if (facebook == null){
+			throw new NotFoundConnectionException();
+		}
 		PagedList<Account> page = facebook.pageOperations().getAccounts();
 		return page;
 	}
@@ -116,7 +126,9 @@ public class FacebookResource {
 	@RequestMapping(value = Uris.PAGES, method = RequestMethod.POST)
 	public void postPage(@RequestParam(required = true) String pageId, @RequestParam(required = true) String message)
 			throws NotFoundConnectionException, InsufficientPermissionException {
-		foundConnection();
+		if (facebook == null){
+			throw new NotFoundConnectionException();
+		}
 		PagePostData pagePostData = new PagePostData(pageId);
 		pagePostData.message(message);
 		if (facebook.pageOperations().isPageAdmin(pageId)) {
@@ -124,10 +136,10 @@ public class FacebookResource {
 		}
 	}
 
-	private void foundConnection() throws NotFoundConnectionException {
-		if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
-			throw new NotFoundConnectionException();
-		}
-	}
+//	private void foundConnection() throws NotFoundConnectionException {
+//		if (connectionRepository.findPrimaryConnection(Facebook.class) == null) {
+//			throw new NotFoundConnectionException();
+//		}
+//	}
 
 }

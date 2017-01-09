@@ -59,22 +59,26 @@ public class LinkedInResource {
 
 	@RequestMapping(value = Uris.PROFILE, method = RequestMethod.GET)
 	public LinkedInProfile profile() throws NotFoundConnectionException {
-		foundConnection();
+		if (linkedIn == null){
+			throw new NotFoundConnectionException();
+		}
 		LinkedInProfile user = linkedIn.profileOperations().getUserProfile();
 		return user;
 	}
 
 	@RequestMapping(value = Uris.CONNECTIONS, method = RequestMethod.GET)
 	public List<LinkedInProfile> connections() throws NotFoundConnectionException {
-		foundConnection();
+		if (linkedIn == null){
+			throw new NotFoundConnectionException();
+		}
 		List<LinkedInProfile> connections = linkedIn.connectionOperations().getConnections();
 		return connections;
 	}
 
-	private void foundConnection() throws NotFoundConnectionException {
-		if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
-			throw new NotFoundConnectionException();
-		}
-	}
+//	private void foundConnection() throws NotFoundConnectionException {
+//		if (connectionRepository.findPrimaryConnection(LinkedIn.class) == null) {
+//			throw new NotFoundConnectionException();
+//		}
+//	}
 
 }
